@@ -28,7 +28,7 @@ public class TaskController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "unable to find task");
         }
         var todo = result.get();
-        todo.name = body.get("name"); // Update the task name
+        todo.name = body.get("name"); // take the input name
         todo.completed = Boolean.parseBoolean(body.get("completed"));
 
         return repository.save(todo);
@@ -38,6 +38,7 @@ public class TaskController {
     void delete(@PathVariable String id) {
         var result = repository.findById(id);
         result.ifPresent(todo -> repository.delete(todo));
+        System.out.println("Task deleted: " + id);
     }
 
     @PostMapping("tasks")
