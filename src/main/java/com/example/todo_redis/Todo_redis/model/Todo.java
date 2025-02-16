@@ -15,16 +15,23 @@ import java.io.Serializable;
 
 @Document
 //@Data
-////@AllArgsConstructor
-////@NoArgsConstructor
+@AllArgsConstructor
+//@NoArgsConstructor
 //@Entity
 //@Table(name = "todo_table")
 public class Todo implements Serializable {
 
-//    @jakarta.persistence.Id
+
     @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
      public String id;
      public String name;
      public boolean completed = false; // Default value is fine
+
+    public Todo() {
+
+    }
+
+
+
 }
