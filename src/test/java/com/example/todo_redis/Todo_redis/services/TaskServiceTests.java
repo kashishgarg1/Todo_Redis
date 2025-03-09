@@ -78,6 +78,8 @@ public class TaskServiceTests {
     @Test
     public void updateTask() {
         System.out.println("updateTask");
+
+
         Todo existingTodo = new Todo();
         existingTodo.id = "1";
         existingTodo.name = "Drink";
@@ -87,18 +89,23 @@ public class TaskServiceTests {
         Todo updatedTodo = new Todo();
         updatedTodo.id = "1";
         updatedTodo.name = "Music";
+        updatedTodo.completed = true;
+
+        Mockito.when(repository.findById(existingTodo.id)).thenReturn(Optional.of(existingTodo));
         Mockito.when(repository.save(existingTodo)).thenReturn(existingTodo);
+
 
         Todo result = taskService.update(existingTodo.id, updatedTodo);
 
+
         verify(repository, times(1)).findById(existingTodo.id);
         verify(repository, times(1)).save(existingTodo);
-
 
         System.out.println("Expected: " + updatedTodo.name);
         System.out.println("Actual: " + result.name);
         assertEquals(updatedTodo.name, result.name);
     }
+
     @Test
     public void addTask(){
         System.out.println("addTask");

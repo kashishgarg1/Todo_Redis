@@ -20,17 +20,18 @@ public class TaskService {
         return repository.findAll();
     }
 
-    public Todo update(String id, Todo todo) {
-        Optional<Todo> result = repository.findById(id);
-        if (result.isEmpty()) {
+    public Todo update(String id, Todo updatedTodo) {
+        Optional<Todo> optionalTodo = repository.findById(id);
+        if (optionalTodo.isPresent()) {
+            Todo existingTodo = optionalTodo.get();
+            existingTodo.name = updatedTodo.name;
+            existingTodo.completed = updatedTodo.completed;
+            return repository.save(existingTodo);
+        } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find task");
         }
-        Todo existingTodo = result.get();
-        existingTodo.name = todo.name;
-        existingTodo.completed = todo.completed;
-
-        return repository.save(existingTodo);
     }
+
 
 
     public void delete(String id) {
@@ -43,6 +44,7 @@ public class TaskService {
     }
 
     public Todo create(Todo todo) {
+
         return repository.save(todo);
     }
 }
